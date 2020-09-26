@@ -31,11 +31,8 @@ container.resolve(function (_, user) {
     function initializeApp() {
 
         var app = express();
-        var port = process.env.port || 3000;
-        var server = http.createServer(app);
-        server.listen(port, function () {
-            console.log("Connected");
-        });
+        var port_number = server.listen(process.env.PORT || 3000);
+		app.listen(port_number);
 
         configureApp(app);
 
