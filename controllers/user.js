@@ -26,10 +26,7 @@ module.exports = function(passport, validation, email, User) {
 		
 
         loginView : function(req, res) {
-			if(req.session.remember) {
-				return res.redirect('/dashboard');
-			}
-            let messages = req.flash('error');
+			let messages = req.flash('error');
 			messages = messages.map((str, index) => ({ name: str}));
             res.render("login", {hasErrors : (messages.length > 0) ? true : false, messages : messages});
         },
