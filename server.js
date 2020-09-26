@@ -13,6 +13,7 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const validator = require('express-validator');
 const mustacheExpress = require('mustache-express');
+require('dotenv').config();
 
 // Container
 
@@ -23,7 +24,8 @@ const container = require('./container');
 container.resolve(function (_, user) {
 
     mongoose.Promise = global.Promise;
-    mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ICrowdWebApp', { useMongoClient: true });
+	const uri = process.env.MONGODB_URI;
+    mongoose.connect(uri.toString());
 
     var app = initializeApp();
 
