@@ -130,7 +130,7 @@ module.exports = function(passport, validation, email, User) {
 		},
 		
 		dashboard: function(req, res) {
-			if(req.user.firstLogin) {
+			/*if(req.user.firstLogin) {
 				
 				let mailSender = new email.MailSender();
 				const mailOptions = {
@@ -151,8 +151,8 @@ module.exports = function(passport, validation, email, User) {
 			
 			}
 			else {
-				return res.render("dashboard", {welcome_message: "Welcome Again"});
-			}
+				*/return res.render("dashboard", {welcome_message: "Welcome Again"});
+			//}
 		},
 		
         logOut: function (req, res) {

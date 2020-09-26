@@ -29,9 +29,6 @@ passport.use('local.login', new LocalStrategy({
             messages.push('Email Does Not Exist or Password is Invalid');
             return done(null, false, req.flash('error', messages));
         }
-		if(req.body.remember) {
-			req.session.remember = true;
-		}
         return done(null, user);
     });
 }));
