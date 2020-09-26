@@ -3,7 +3,8 @@
 module.exports = function(passport, validation, email, User) {
     return {
         setRouting : function(router) {
-           
+			router.get('/', this.homePage);
+		   
 			router.get('/auth/google', this.googleLoginRedirect);
             router.get('/auth/google/callback', this.googleLoginCallback);
 			
@@ -23,7 +24,9 @@ module.exports = function(passport, validation, email, User) {
 			router.get('/dashboard', this.dashboard);
             router.get('/logout', this.logOut);
         },
-		
+		homePage : function(req, res) {
+			res.send("Welcome");
+		},
 
         loginView : function(req, res) {
 			let messages = req.flash('error');
