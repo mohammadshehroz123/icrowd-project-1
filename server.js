@@ -24,8 +24,7 @@ const container = require('./container');
 container.resolve(function (_, user) {
 
     mongoose.Promise = global.Promise;
-	const uri = process.env.MONGODB_URI;
-	mongoose.connect(uri.toString(), {useNewUrlParser: true, useUnifiedTopology: true});
+	mongoose.connect("mongodb+srv://shehroz:shehroz@cluster0.sylbf.mongodb.net/db?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true});
 
     var app = initializeApp();
 
