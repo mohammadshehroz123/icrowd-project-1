@@ -23,7 +23,7 @@ const container = require('./container');
 container.resolve(function (_, user) {
 
     mongoose.Promise = global.Promise;
-    mongoose.connect('mongodb://localhost:27017/ICrowdWebApp', { useMongoClient: true });
+    mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ICrowdWebApp', { useMongoClient: true });
 
     var app = initializeApp();
 
