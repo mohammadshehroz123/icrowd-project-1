@@ -194,16 +194,21 @@ module.exports = function(formidable, passport, validation, email, User) {
 		var newpath =    path.join(__dirname, '../public/uploads/' + files.filetoupload.name);
 		mv(oldpath, newpath, function (err) {
 			//if (err) throw err;
-			User.findOneAndUpdate(
-				{_id: req.user._id},
-				{ 
-					$push: {uploadedImages: files.filetoupload.name }
-				}, function(err, doc) {
-					if(doc) {
-						res.redirect('/photos');
-					}
+			if(!err) {
+				User.findOneAndUpdate(
+					{_id: req.user._id},
+					{ 
+						$push: {uploadedImages: files.filetoupload.name }
+					}, function(err, doc) {
+						if(doc) {
+							res.redirect('/photos');
+						}
 				});
-			});
+			}
+			else {
+				res.send("Error in uploading image");
+			}
+	
 		});
 
 	},
