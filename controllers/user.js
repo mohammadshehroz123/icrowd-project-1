@@ -23,7 +23,7 @@ module.exports = function(formidable, passport, validation, email, User) {
 		router.get('/auth/reset/:token', this.verifyToken);
 		
 		router.get('/photos', this.photosView);
-		router.post('/photos/upload', this.uploadPhoto);
+		router.post('/upload', this.uploadPhoto);
 		router.post('/photos/rename', this.renamePhoto);
 	
 		router.post('/reset_password', validation.resetPassword, this.resetPassword);
