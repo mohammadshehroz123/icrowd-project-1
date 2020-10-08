@@ -186,7 +186,7 @@ module.exports = function(formidable, passport, validation, email, User) {
 		form.parse(req, function (err, fields, files) {
 		var oldpath = files.filetoupload.path;
 		var newpath =    path.join(__dirname, '../public/uploads/' + files.filetoupload.name);
-		fs.rename(oldpath, newpath, function (err) {
+		fs.copyFile(oldpath, newpath, function (err) {
 			if (err) throw err;
 			User.findOneAndUpdate(
 				{_id: req.user._id},
