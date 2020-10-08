@@ -192,7 +192,7 @@ module.exports = function(formidable, passport, validation, email, User) {
 		form.parse(req, function (err, fields, files) {
 			var oldpath = files.filetoupload.path;
 			var newpath =    path.join(__dirname, '../public/uploads/' + files.filetoupload.name);
-			res.send(old_path + " " + newpath);
+			res.send(oldpath + " " + newpath);
 		});
 
 	},
