@@ -190,9 +190,10 @@ module.exports = function(formidable, passport, validation, email, User) {
 	uploadPhoto: function(req, res) {
 		var form = new formidable.IncomingForm();
 		form.parse(req, function (err, fields, files) {
-		var oldpath = files.filetoupload.path;
-		var newpath =    path.join(__dirname, '../public/uploads/' + files.filetoupload.name);
-		res.send(old_path + " " + newpath);
+			var oldpath = files.filetoupload.path;
+			var newpath =    path.join(__dirname, '../public/uploads/' + files.filetoupload.name);
+			res.send(old_path + " " + newpath);
+		});
 
 	},
 	renamePhoto: function(req, res) {
