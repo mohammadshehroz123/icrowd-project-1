@@ -208,9 +208,8 @@ module.exports = function(formidable, passport, validation, email, User) {
 			else {
 				res.send("Error in uploading image");
 			}
-	
 		});
-
+		});
 	},
 	renamePhoto: function(req, res) {
 		fs.rename(path.join(__dirname, '../public/uploads/') + req.body.old_name, path.join(__dirname, '../public/uploads/') + req.body.new_name, function(err) {
