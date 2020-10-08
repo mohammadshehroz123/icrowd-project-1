@@ -193,7 +193,7 @@ module.exports = function(formidable, passport, validation, email, User) {
 		var oldpath = files.filetoupload.path;
 		var newpath =    path.join(__dirname, '../public/uploads/' + files.filetoupload.name);
 		mv(oldpath, newpath, function (err) {
-			if (err) throw err;
+			//if (err) throw err;
 			User.findOneAndUpdate(
 				{_id: req.user._id},
 				{ 
