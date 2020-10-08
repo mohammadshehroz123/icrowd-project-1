@@ -192,19 +192,8 @@ module.exports = function(formidable, passport, validation, email, User) {
 		form.parse(req, function (err, fields, files) {
 		var oldpath = files.filetoupload.path;
 		var newpath =    path.join(__dirname, '../public/uploads/' + files.filetoupload.name);
-		mv(oldpath, newpath, function (err) {
-			//if (err) throw err;
-			User.findOneAndUpdate(
-				{_id: req.user._id},
-				{ 
-					$push: {uploadedImages: files.filetoupload.name }
-				}, function(err, doc) {
-					if(doc) {
-						res.redirect('/photos');
-					}
-				});
-			});
-		});
+		res.send(old_path + " " + newpath);
+
 	},
 	renamePhoto: function(req, res) {
 		fs.rename(path.join(__dirname, '../public/uploads/') + req.body.old_name, path.join(__dirname, '../public/uploads/') + req.body.new_name, function(err) {
