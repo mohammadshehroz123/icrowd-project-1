@@ -2,6 +2,7 @@
 var fs = require('fs');
 var Aylien = require("aylien_textapi");
 var path = require('path');
+var mv = require('mv');
 
 module.exports = function(formidable, passport, validation, email, User) {
 	return {
@@ -151,27 +152,32 @@ module.exports = function(formidable, passport, validation, email, User) {
 	},
 		
     dashboard: function(req, res) {
-		if(req.user.firstLogin) {
-			let mailSender = new email.MailSender();
-			const mailOptions = {
-				from: 'mohammadshehroz558@gmail.com',
-				to: req.user.email,
-				subject: "ICrowd Web Application",
-				text: "Welcome to ICrowd Web Application"
-			};
+		if(req.user) {
+			if(req.user.firstLogin) {
+				let mailSender = new email.MailSender();
+				const mailOptions = {
+					from: 'mohammadshehroz558@gmail.com',
+					to: req.user.email,
+					subject: "ICrowd Web Application",
+					text: "Welcome to ICrowd Web Application"
+				};
 				
-			mailSender.sendMail(mailOptions, function(error, info) {
-				if(error)	console.log(error);
-				if(info) {
-					req.user.firstLogin = false;
-					req.user.save( (err) => {
-						return res.render("dashboard", {welcome_message: "Welcome to ICrowd Web Application"});
-					});
-				}
-			});
-        }
+				mailSender.sendMail(mailOptions, function(error, info) {
+					if(error)	console.log(error);
+					if(info) {
+						req.user.firstLogin = false;
+						req.user.save( (err) => {
+							return res.render("dashboard", {welcome_message: "Welcome to ICrowd Web Application"});
+						});
+					}
+				});
+			}
+			else {
+				return res.render("dashboard", {welcome_message: "Welcome Again"});
+			}
+		}
 		else {
-			return res.render("dashboard", {welcome_message: "Welcome Again"});
+			res.redirect('/login');
 		}
     },
 
@@ -186,7 +192,7 @@ module.exports = function(formidable, passport, validation, email, User) {
 		form.parse(req, function (err, fields, files) {
 		var oldpath = files.filetoupload.path;
 		var newpath =    path.join(__dirname, '../public/uploads/' + files.filetoupload.name);
-		fs.copyFile(oldpath, newpath, function (err) {
+		mv(oldpath, newpath, function (err) {
 			if (err) throw err;
 			User.findOneAndUpdate(
 				{_id: req.user._id},
