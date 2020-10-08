@@ -1,4 +1,3 @@
-
 'use strict';
 
 const passport = require('passport');
@@ -6,12 +5,12 @@ const GoogleStrategy = require('passport-google-oauth2').Strategy;
 
 const User = require('../models/user-model');
 
-passport.serializeUser(function(user, done){
+passport.serializeUser(function (user, done) {
     done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done){
-    User.findById(id, function(err, user){
+passport.deserializeUser(function (id, done) {
+    User.findById(id, function (err, user) {
         done(err, user);
     });
 });
@@ -19,14 +18,14 @@ passport.deserializeUser(function(id, done){
 passport.use(new GoogleStrategy({
     clientID: '414800419877-cv61tpqmerdh51m5jjmfb88a0v230g6r.apps.googleusercontent.com',
     clientSecret: 'CbmrEbNLC4yygt8XoY6Z_BLe',
-    passReqToCallback : true,
-    callbackURL : 'http://localhost:3000/auth/google/callback'
-}, function(req, accessToken, refreshToken, profile, done){
-    User.findOne({google : profile.id}, function(err, user){
-        if(err) {
+    passReqToCallback: true,
+    callbackURL: 'http://localhost:3000/auth/google/callback'
+}, function (req, accessToken, refreshToken, profile, done) {
+    User.findOne({ google: profile.id }, function (err, user) {
+        if (err) {
             return done(err);
         }
-        if(user) {
+        if (user) {
             return done(null, user);
         }
         const newUser = new User();
@@ -34,8 +33,7 @@ passport.use(new GoogleStrategy({
         newUser.fullname = profile.displayName;
         newUser.email = profile.emails[0].value;
         newUser.profilePhoto = profile._json.picture;
-        newUser.save(function(err){
-			console.log(err);
+        newUser.save(function (err) {
             return done(null, newUser);
         });
     });

@@ -7,7 +7,7 @@ class MailSender {
 			service: 'gmail',
 			auth: {
 				user: 'rajivkumar.mel@gmail.com',
-				pass: 'mel*1234'
+				pass: 'rajivkumar%1234'
 			}
 		});
 	}

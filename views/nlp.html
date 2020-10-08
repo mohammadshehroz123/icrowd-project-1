@@ -66,11 +66,54 @@
 		</div>
 	</div>
 	
-	<div id="main">
-		<center>
-			<h2>{{ welcome_message }}</h2>
-		</center>
+	<hr class="mt-2 mb-5">
+	
+	
+	<h2 class="text-center" style="color: black;">NLP</h2>
+	<div class="container" style="text-align: center;">
+		<form>
+			<div class="input-group">
+				<input type="text" id="test-sentiment" placeholder="Enter URL Here...." class="form-control"/>
+				<span class="input-group-btn">
+					<button class="btn btn-primary" id="handleClick">Submit</button>
+				</span>
+			</div>
+		</form>
+		
+		<p style="color: black;">Polarity: <span id="text_polarity"></span> </p>
+		<p style="color: black;">Subject: <span id="text_subjectivity"></span> </p>
+		<p style="color: black;">Polarity Confidence: <span id="text_polarity_confidence"></span> </p>
+		<p style="color: black;">Subjective Confidence: <span id="text_subjectivity_confidence"></span> </p>
 	</div>
+
+		
+	<script src="plugins/jquery/jquery.min.js"></script>
+	<script>
+		
+		let btn = $("#handleClick");
+		
+		btn.on('click', function(event) {
+			event.preventDefault();
+			
+			let url  = $('#test-sentiment');
+			fetch("/nlp/fetch", {
+				method: "POST",
+				mode: "cors",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({ url: url.val() })
+			})
+			.then(res => res.json())
+			.then(data => {
+				document.getElementById("text_polarity").innerHTML = data.polarity;
+				document.getElementById("text_subjectivity").innerHTML = data.subjectivity;
+				document.getElementById("text_polarity_confidence").innerHTML = data.polarity_confidence;
+				document.getElementById("text_subjectivity_confidence").innerHTML = data.subjectivity_confidence;
+			});
+				
+		});
+	</script>
 	
 	
 </body>	

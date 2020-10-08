@@ -25,33 +25,30 @@ container.resolve(function (_, user) {
 
     mongoose.Promise = global.Promise;
 	mongoose.connect("mongodb+srv://shehroz:shehroz@cluster0.sylbf.mongodb.net/db?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true});
-
+    
     var app = initializeApp();
 
     function initializeApp() {
-
         var app = express();
         var server = http.createServer();
-		var port_number = server.listen(process.env.PORT || 3000);
-		app.listen(port_number);
+        var port_number = server.listen(process.env.PORT || 3000);
+        app.listen(port_number);
 
         configureApp(app);
-
     }
 
     function configureApp(app) {
-
         require('./passports/passport-google');
-		require('./passports/passport-local');
-        
+        require('./passports/passport-local');
+
         app.use(express.static(path.join(__dirname, "/public")));
-        //app.use("/*/plugins", express.static(path.join(__dirname, "/public/plugins")));
-        //app.use("/*/dist", express.static(path.join(__dirname, "/public/dist")))
+        app.use("/*/uploads", express.static(path.join(__dirname, "/public/uploads"))); 
+		app.use("/*/plugins", express.static(path.join(__dirname, "/public/plugins")));
+        app.use("/*/dist", express.static(path.join(__dirname, "/public/dist")))
         app.engine('html', mustacheExpress());
-		app.set('view engine', 'html');
-		app.set('views', __dirname + '/views');
-		
-        
+        app.set('view engine', 'html');
+        app.set('views', __dirname + '/views');
+
         app.use(bodyParser.urlencoded({ extended: true }));
         app.use(bodyParser());
         app.use(cookieParser());
@@ -66,18 +63,15 @@ container.resolve(function (_, user) {
         }));
 
         app.use(flash());
-        
+
         app.use(passport.initialize());
         app.use(passport.session());
 
-        
         // App Routing 
         var router = require('express-promise-router')();
         user.setRouting(router);
         app.use(router);
 
         app.locals._ = _;
-
     }
-
 });
