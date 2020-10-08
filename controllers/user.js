@@ -23,7 +23,7 @@ module.exports = function(formidable, passport, validation, email, User) {
 		router.get('/auth/reset/:token', this.verifyToken);
 		
 		router.get('/photos', this.photosView);
-		router.post('/upload', this.uploadPhoto);
+		router.post('/photos/upload', this.uploadPhoto);
 		router.post('/photos/rename', this.renamePhoto);
 	
 		router.post('/reset_password', validation.resetPassword, this.resetPassword);
@@ -190,9 +190,20 @@ module.exports = function(formidable, passport, validation, email, User) {
 	uploadPhoto: function(req, res) {
 		var form = new formidable.IncomingForm();
 		form.parse(req, function (err, fields, files) {
-			var oldpath = files.filetoupload.path;
-			var newpath =    path.join(__dirname, '../public/uploads/' + files.filetoupload.name);
-			res.send(oldpath + " " + newpath);
+		var oldpath = files.filetoupload.path;
+		var newpath =    path.join(__dirname, '../public/uploads/' + files.filetoupload.name);
+		mv(oldpath, newpath, function (err) {
+			//if (err) throw err;
+			User.findOneAndUpdate(
+				{_id: req.user._id},
+				{ 
+					$push: {uploadedImages: files.filetoupload.name }
+				}, function(err, doc) {
+					if(doc) {
+						res.redirect('/photos');
+					}
+				});
+			});
 		});
 
 	},
